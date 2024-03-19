@@ -128,7 +128,7 @@ If you like this project... Give it a Star
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I would like to thank to the Maximillian for the learning opportunity
+I would like to thank to the Sch Maximillian for the learning opportunity
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
