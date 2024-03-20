@@ -1,5 +1,5 @@
 // Using decorator for Autobind
-const autobind = (target: any, methodName: string, descriptor: PropertyDescriptor) => {
+const autobind = (_: any, _2: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value;
     const adjustedDescriptor: PropertyDescriptor = {
         configurable: true,
