@@ -18,7 +18,7 @@ class ProjectInput {
     hostElement: HTMLDivElement;
     formElement: HTMLFormElement;
     titleInputElement: HTMLInputElement;
-    decriptionInputElement: HTMLInputElement;
+    descriptionInputElement: HTMLInputElement;
     peopleInputElement: HTMLInputElement;
 
     constructor() {
@@ -30,19 +30,37 @@ class ProjectInput {
         this.formElement.id = 'user-input';
 
         this.titleInputElement = this.formElement.querySelector('#title') as HTMLInputElement;
-        this.decriptionInputElement = this.formElement.querySelector('#description') as HTMLInputElement;
+        this.descriptionInputElement = this.formElement.querySelector('#description') as HTMLInputElement;
         this.peopleInputElement = this.formElement.querySelector('#people') as HTMLInputElement;
 
         this.configure();
         this.attach();
     }
 
+    private getUserInputs(): [string, string, number] {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+
+        return [enteredTitle, enteredDescription, +enteredPeople]
+    }
+
+    private clearInput() {
+        this.titleInputElement.value = '';
+        this.descriptionInputElement.value = '';
+        this.peopleInputElement.value = '';
+    }
+
     @autobind
     private submitHandler(e: Event) {
         e.preventDefault();
-        console.log(this.titleInputElement.value);
+        const userData = this.getUserInputs();
+        if (Array.isArray(userData)){
+            const [title, description, people] = [...userData];
+            console.log(title, description, people);
+            this.clearInput();
+        }
     }
-
 
     private configure() {
         this.formElement.addEventListener('submit', this.submitHandler);
