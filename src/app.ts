@@ -37,4 +37,4 @@ class ProjectInput {
     }
 }
 
-const pr = new ProjectInput();
+const project = new ProjectInput();

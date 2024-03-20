@@ -23,5 +23,5 @@ class ProjectInput {
         this.hostElement.insertAdjacentElement('afterbegin', this.formElement);
     }
 }
-const pr = new ProjectInput();
+const project = new ProjectInput();
 //# sourceMappingURL=app.js.map
