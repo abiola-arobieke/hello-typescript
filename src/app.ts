@@ -1,3 +1,37 @@
+// Input validation
+interface Validatable {
+    value: string | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+const validate = (validatebleInput: Validatable) => {
+    let isValid = true;
+    if (validatebleInput.required) {
+        isValid = isValid && validatebleInput.value.toString().trim().length !== 0;
+    }
+
+    if (validatebleInput.minLength != null && typeof validatebleInput.value === 'string') {
+        isValid = isValid && validatebleInput.value.length >= validatebleInput.minLength;
+    }
+
+    if (validatebleInput.maxLength != null && typeof validatebleInput.value === 'string') {
+        isValid = isValid && validatebleInput.value.length <= validatebleInput.maxLength;
+    }
+
+    if (validatebleInput.min != null && typeof validatebleInput.value === 'number') {
+        isValid = isValid && validatebleInput.value >= validatebleInput.min;
+    }
+
+    if (validatebleInput.max != null && typeof validatebleInput.value === 'number') {
+        isValid = isValid && validatebleInput.value <= validatebleInput.max;
+    }
+    return isValid;
+}
+
 // Using decorator for Autobind
 const autobind = (_: any, _2: string, descriptor: PropertyDescriptor) => {
     const originalMethod = descriptor.value;
@@ -37,12 +71,35 @@ class ProjectInput {
         this.attach();
     }
 
-    private getUserInputs(): [string, string, number] {
+    private getUserInputs(): [string, string, number] | void {
         const enteredTitle = this.titleInputElement.value;
         const enteredDescription = this.descriptionInputElement.value;
         const enteredPeople = this.peopleInputElement.value;
 
-        return [enteredTitle, enteredDescription, +enteredPeople]
+        const titleValidateable: Validatable = {
+            value: enteredTitle,
+            required: true
+        }
+
+        const descriptionValidateable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        }
+
+        const peopleValidateable: Validatable = {
+            value: +enteredPeople,
+            required: true,
+            min: 1,
+            max: 5
+        }
+       
+       if (!validate(titleValidateable) || !validate(descriptionValidateable) || !validate(peopleValidateable)) {
+            alert('Invalid input! Please try again');
+            return;
+       } else {
+           return [enteredTitle, enteredDescription, +enteredPeople]
+       } 
     }
 
     private clearInput() {
