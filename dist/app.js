@@ -83,15 +83,23 @@ class ProjectList {
         this.sectionElement.id = `${this.type}-projects`;
         this.assignedProjects = [];
         projectState.addListener((projects) => {
-            this.assignedProjects = projects;
+            const relevantProject = projects.filter(prj => {
+                if (this.type === 'active') {
+                    return prj.status === ProjectStatus.Active;
+                }
+                else {
+                    return prj.status === ProjectStatus.Finished;
+                }
+            });
+            this.assignedProjects = relevantProject;
             this.renderProject();
         });
         this.attach();
         this.renderContent();
     }
     renderProject() {
-        const listEl = document.getElementById(`${this.type}-projects`);
-        console.log(listEl);
+        const listEl = document.getElementById(`${this.type}-projects-list`);
+        listEl.innerHTML = '';
         for (const projectItem of this.assignedProjects) {
             const listItem = document.createElement('li');
             listItem.textContent = projectItem.title;
@@ -99,7 +107,7 @@ class ProjectList {
         }
     }
     renderContent() {
-        const listId = `${this.type}-projects`;
+        const listId = `${this.type}-projects-list`;
         this.sectionElement.querySelector('ul').id = listId;
         this.sectionElement.querySelector('h2').textContent = this.type.toUpperCase() + ' PROJECTS';
     }
